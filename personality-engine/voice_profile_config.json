@@ -1,0 +1,10 @@
+{
+  "selected_voice": "female",
+  "preset": "calm",
+  "adaptive_mode": true,
+  "last_30_day_profile": {
+    "tempo": "medium",
+    "pitch": "balanced",
+    "emotional_energy": "supportive"
+  }
+}
