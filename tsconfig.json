@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",                      // ✅ Good balance for modern async/await
+    "module": "CommonJS",                    // ✅ Needed for ts-node to support top-level await
+    "lib": ["esnext"],
+    "jsx": "react-native",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "types": ["react", "react-native"],
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "baseUrl": ".",
+    "paths": {
+      "providers/*": ["src/providers/*"],
+      "hems/*": ["src/hems/*"],
+      "utils/*": ["src/utils/*"],
+      "hooks/*": ["src/hooks/*"],
+      "screens/*": ["src/screens/*"],
+      "components/*": ["src/components/*"],
+      "memory/*": ["src/memory/*"]
+    }
+  },
+  "exclude": ["node_modules"],
+  "include": ["**/*.ts", "**/*.tsx"]
+}
