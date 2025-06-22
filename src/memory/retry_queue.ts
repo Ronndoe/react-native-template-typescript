@@ -1,12 +1,21 @@
 // File: src/memory/retry_queue.ts
 import SQLite from 'react-native-sqlite-storage';
 import CryptoJS from 'crypto-js';
-import NetInfo from '@react-native-community/netinfo';
+import * as NetInfo from '@react-native-community/netinfo';
 
 const ENCRYPTION_KEY = 'syntheos-local-key';
 const db = SQLite.openDatabase({ name: 'SyntheosMemory.db' });
 
-db.transaction((tx: SQLite.Transaction) => {
+type SQLiteTransaction = {
+executeSql: (
+    sqlStatement: string,
+    args?: any[],
+    callback?: (tx: any, resultSet: any) => void,
+    errorCallback?: (tx: any, error: any) => void
+) => void;
+};
+
+db.transaction((tx: SQLiteTransaction) => {
 tx.executeSql(
     `CREATE TABLE IF NOT EXISTS retry_queue (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,12 +28,12 @@ export async function saveToRetryQueue(data: any[]) {
 const payload = JSON.stringify(data);
 const encrypted = CryptoJS.AES.encrypt(payload, ENCRYPTION_KEY).toString();
 return new Promise((resolve, reject) => {
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLiteTransaction) => {
     tx.executeSql(
         'INSERT INTO retry_queue (data) VALUES (?)',
         [encrypted],
-        (_: SQLite.Transaction, result: SQLite.ResultSet) => resolve(result),
-        (_: SQLite.Transaction, error: SQLite.SQLError) => reject(error)
+        (_: any, result: any) => resolve(result),
+        (_: any, error: any) => reject(error)
     );
     });
 });
@@ -32,11 +41,11 @@ return new Promise((resolve, reject) => {
 
 export async function getRetryQueue(): Promise<{ id: number; data: any[] }[]> {
 return new Promise((resolve, reject) => {
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLiteTransaction) => {
     tx.executeSql(
         'SELECT * FROM retry_queue',
         [],
-        (_: SQLite.Transaction, { rows }: SQLite.ResultSet) => {
+        (_: any, { rows }: any) => {
         const results: { id: number; data: any[] }[] = [];
         for (let i = 0; i < rows.length; i++) {
             const row = rows.item(i);
@@ -49,7 +58,7 @@ return new Promise((resolve, reject) => {
         }
         resolve(results);
         },
-        (_: SQLite.Transaction, error: SQLite.SQLError) => reject(error)
+        (_: any, error: any) => reject(error)
     );
     });
 });
@@ -57,19 +66,19 @@ return new Promise((resolve, reject) => {
 
 export async function removeFromRetryQueue(id: number) {
 return new Promise((resolve, reject) => {
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLiteTransaction) => {
     tx.executeSql(
         'DELETE FROM retry_queue WHERE id = ?',
         [id],
-        (_: SQLite.Transaction, result: SQLite.ResultSet) => resolve(result),
-        (_: SQLite.Transaction, error: SQLite.SQLError) => reject(error)
+        (_: any, result: any) => resolve(result),
+        (_: any, error: any) => reject(error)
     );
     });
 });
 }
 
 export function monitorNetworkAndRetrySync(retryFn: () => void) {
-NetInfo.addEventListener((state: { isConnected: boolean; isInternetReachable: boolean }) => {
+NetInfo.addEventListener((state) => {
     if (state.isConnected && state.isInternetReachable) {
     retryFn();
     }
