@@ -25,9 +25,11 @@
       "infra/*": ["src/infra/*"],
       "ai/*": ["src/ai/*"],
       "ui/*": ["src/ui/*"],
-      "navigation/*": ["src/navigation/*"]
+      "navigation/*": ["src/navigation/*"],
+      "voice/*": ["src/voice/*"],
+      "types/*": ["src/types/*"]
     }
   },
   "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx", "src", "src/types"]
 }
