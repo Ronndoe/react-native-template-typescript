@@ -1,6 +1,6 @@
 // File: src/memory/cloud_sync.ts
 import axios from 'axios';
-import { saveToRetryQueue, getRetryQueue, removeFromRetryQueue } from './retry_queue';
+import { saveToRetryQueue, getRetryQueue, removeFromRetryQueue } from '../memory/retry_queue';
 
 const CLOUD_ENDPOINT = 'https://api.syntheos.ai/memory/upload';
 
