@@ -2,8 +2,8 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import HealthReportScreen from "screens/HealthReportScreen";
-import VoiceAssistantScreen from "screens/VoiceAssistantScreen"; // we'll create this next
-import { Ionicons } from "@expo/vector-icons";
+import VoiceAssistantScreen from "screens/VoiceAssistantScreen";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 
