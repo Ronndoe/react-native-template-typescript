@@ -21,7 +21,10 @@
       "hooks/*": ["src/hooks/*"],
       "screens/*": ["src/screens/*"],
       "components/*": ["src/components/*"],
-      "memory/*": ["src/memory/*"]
+      "memory/*": ["src/memory/*"],
+      "infra/*": ["src/infra/*"],
+      "ai/*": ["src/ai/*"],
+      "ui/*": ["src/ui/*"]
     }
   },
   "exclude": ["node_modules"],
