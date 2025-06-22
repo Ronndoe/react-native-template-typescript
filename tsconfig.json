@@ -24,7 +24,8 @@
       "memory/*": ["src/memory/*"],
       "infra/*": ["src/infra/*"],
       "ai/*": ["src/ai/*"],
-      "ui/*": ["src/ui/*"]
+      "ui/*": ["src/ui/*"],
+      "navigation/*": ["src/navigation/*"]
     }
   },
   "exclude": ["node_modules"],
