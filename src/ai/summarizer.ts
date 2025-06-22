@@ -1,7 +1,7 @@
 // Let GPT-4o or Gemini summarize recent memory states and generate insights.
 // File: src/ai/summarizer.ts
 import { callLLM } from './llm_engine';
-import { saveMemory } from 'memory/MemoryProvider';
+import { saveMemory } from 'memory/memory_store';
 import { MemoryEntry } from 'memory/types';
 
 export async function summarizeMemories(memories: MemoryEntry[], type?: string) {
