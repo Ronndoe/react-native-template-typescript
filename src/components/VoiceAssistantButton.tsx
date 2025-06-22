@@ -3,15 +3,13 @@ import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { callLLM } from "ai/llm_engine";
 import { buildPersonalityPrompt } from "ai/personality_context";
-import * as Speech from "expo-speech"; // or any TTS you prefer
+import Tts from "react-native-tts"; // <- switch from expo-speech to react-native-tts
 
 const VoiceAssistantButton = () => {
 const handleVoice = async () => {
-    const prompt = await buildPersonalityPrompt(
-    "Give me a quick health update."
-    );
+    const prompt = await buildPersonalityPrompt("Give me a quick health update.");
     const reply = await callLLM({ prompt, engine: "gemini" });
-    Speech.speak(reply);
+    Tts.speak(reply);
 };
 
 return (

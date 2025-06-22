@@ -12,8 +12,10 @@ export type NetInfoState = {
 export function fetch(): Promise<NetInfoState>;
 export function addEventListener(listener: (state: NetInfoState) => void): EmitterSubscription;
 
-export default {
-    fetch: typeof fetch;
-    addEventListener: typeof addEventListener,
+const NetInfo: {
+    fetch: () => Promise<NetInfoState>;
+    addEventListener: (listener: (state: NetInfoState) => void) => EmitterSubscription;
 };
+
+export default NetInfo;
 }
