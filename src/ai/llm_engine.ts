@@ -1,7 +1,8 @@
 // File: src/ai/llm_engine.ts
 // uses buildPersonalityPrompt() to generate dynamic context.
 // Appends user's query to that for a smart, memory-aware prompt.
-import { fetch } from 'react-native';
+// Note: `fetch` is globally available in React Native and does not need to be imported
+
 import { buildPersonalityPrompt } from './personality_context';
 
 export async function callLLM({ prompt, engine }: { prompt: string; engine: 'gpt' | 'gemini' }): Promise<string> {
