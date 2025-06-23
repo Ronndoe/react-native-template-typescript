@@ -1,6 +1,5 @@
 // File: src/__tests__/memory.test.ts
 // Tests cloud sync fallback queue using saveToRetryQueue() and getRetryQueue().
-import { uploadToCloud } from 'infra/cloud_sync';
 import { saveToRetryQueue, getRetryQueue } from 'memory/retry_queue';
 
 describe('Cloud Sync', () => {
