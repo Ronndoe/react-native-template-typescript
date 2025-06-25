@@ -1,10 +1,11 @@
-// File: src/memory/cloud_sync.ts
+// File: src/infra/cloud_sync.ts
 import axios from 'axios';
-import { saveToRetryQueue, getRetryQueue, removeFromRetryQueue } from '../memory/retry_queue';
+import { getRetryQueue, removeFromRetryQueue, saveToRetryQueue } from '../memory/retry_queue';
+import { MemoryData } from '../memory/types';
 
 const CLOUD_ENDPOINT = 'https://api.syntheos.ai/memory/upload';
 
-export async function syncMemoryToCloud(memoryEntries: any[]) {
+export async function syncMemoryToCloud(memoryEntries: MemoryData[]) {
     try {
         console.log('Syncing to cloud...', memoryEntries.length);
         const response = await axios.post(CLOUD_ENDPOINT, { payload: memoryEntries });
@@ -23,15 +24,16 @@ export async function syncMemoryToCloud(memoryEntries: any[]) {
     }
 }
 
+// Batch retry of saved failures
 export async function retryFailedSyncs() {
     const failedBatches = await getRetryQueue();
 
-    for (const batch of failedBatches) {
+    for (const item of failedBatches) {
         try {
-            await axios.post(CLOUD_ENDPOINT, { payload: batch.data });
-            await removeFromRetryQueue(batch.id);
+            await axios.post(CLOUD_ENDPOINT, { payload: [item] });
+            await removeFromRetryQueue(item.id);
         } catch (err) {
-            console.log('Retry failed for batch', batch.id);
+            console.log('Retry failed for memory item', item.id);
         }
     }
 }

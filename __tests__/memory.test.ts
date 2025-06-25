@@ -1,12 +1,26 @@
-// File: src/__tests__/memory.test.ts
-// Tests cloud sync fallback queue using saveToRetryQueue() and getRetryQueue().
-import { saveToRetryQueue, getRetryQueue } from 'memory/retry_queue';
+// File: SYNTHEOSCore/__tests__/memory.test.ts
 
-describe('Cloud Sync', () => {
-    it('queues failed uploads', async () => {
-        const mockData = [{ type: 'activity', steps: 100, timestamp: Date.now() }];
+import { getRetryQueue, saveToRetryQueue } from 'memory/retry_queue';
+import { ActivityData } from 'memory/types';
+
+describe('Cloud Sync Retry Queue', () => {
+    it('queues failed activity uploads', async () => {
+        const mockData: ActivityData[] = [
+            {
+                type: 'activity',
+                steps: 100,
+                timestamp: Date.now(),
+            },
+        ];
+
         await saveToRetryQueue(mockData);
+
         const queue = await getRetryQueue();
-        expect(queue.length).toBeGreaterThan(0);
+
+        const item = queue.find(q => q.type === 'activity') as ActivityData | undefined;
+
+        expect(item).toBeDefined();
+        expect(item!.steps).toBe(100);
+        expect(typeof item!.timestamp).toBe('number');
     });
 });

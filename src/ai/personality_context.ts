@@ -1,4 +1,5 @@
 // File: src/ai/personality_context.ts
+
 import { getAllMemories } from 'memory/sqlite';
 
 const personality = {
@@ -18,14 +19,13 @@ export async function buildPersonalityPrompt(userInput: string): Promise<string>
     const memories = await getAllMemories();
     const recentVitals = memories.filter(m => m.type === 'vitals').slice(-3);
     const summaryLines = recentVitals.map(v => {
-    const content = v.content as { heartRate?: number; sleepQuality?: number };
-    const hr = content.heartRate ?? '–';
-    const sleep = content.sleepQuality?.toFixed?.(1) ?? '–';
-    return `• HR: ${hr} bpm, Sleep: ${sleep} at ${v.timestamp}`;
-});
+        const content = v.content as { heartRate?: number; sleepQuality?: number };
+        const hr = content.heartRate ?? '–';
+        const sleep = content.sleepQuality?.toFixed?.(1) ?? '–';
+        return `• HR: ${hr} bpm, Sleep: ${sleep} at ${v.timestamp}`;
+    });
 
     const context = `Recent user vitals:\n${summaryLines.join('\n')}`;
 
-    return `${getSystemPrompt()}
-${context}`;
+    return `${getSystemPrompt()}\n${context}`;
 }
